@@ -17,7 +17,7 @@ public class RNMixpanel implements ReactPackage {
 
     private String mToken = null;
 
-    RNMixpanel(String token) {
+    public RNMixpanel(String token) {
         mToken = token;
     }
 

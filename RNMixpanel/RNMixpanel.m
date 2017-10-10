@@ -16,7 +16,7 @@
 // Expose this module to the React Native bridge
 RCT_EXPORT_MODULE()
 
-- (void)initWithToken:(NSString*)apiToken launchOptions: (NSDictionary *)launchOptions
++ (void)initWithToken:(NSString*)apiToken launchOptions: (NSDictionary *)launchOptions
 {
     Mixpanel* instance = [[Mixpanel alloc] initWithToken:apiToken launchOptions:launchOptions flushInterval:60 trackCrashes:NO];
 #if defined(DEBUG)
