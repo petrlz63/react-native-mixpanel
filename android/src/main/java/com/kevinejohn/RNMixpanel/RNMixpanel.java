@@ -15,12 +15,18 @@ import java.util.List;
  */
 public class RNMixpanel implements ReactPackage {
 
+    private String mToken = null;
+
+    RNMixpanel(String token) {
+        mToken = token;
+    }
+
     @Override
     public List<NativeModule> createNativeModules(
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new RNMixpanelModule(reactContext));
+        modules.add(new RNMixpanelModule(reactContext, mToken));
 
         return modules;
     }

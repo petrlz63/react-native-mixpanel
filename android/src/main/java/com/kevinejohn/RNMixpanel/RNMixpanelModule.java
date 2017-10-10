@@ -23,9 +23,10 @@ public class RNMixpanelModule extends ReactContextBaseJavaModule implements Life
     ReactApplicationContext reactContext;
     MixpanelAPI mixpanel;
 
-    public RNMixpanelModule(ReactApplicationContext reactContext) {
+    public RNMixpanelModule(ReactApplicationContext reactContext, String token) {
         super(reactContext);
         this.reactContext = reactContext;
+        this.mixpanel = MixpanelAPI.getInstance(reactContext, token);
 
         // Get lifecycle notifications to flush mixpanel on pause or destroy
         reactContext.addLifecycleEventListener(this);
@@ -34,12 +35,6 @@ public class RNMixpanelModule extends ReactContextBaseJavaModule implements Life
     @Override
     public String getName() {
         return "RNMixpanel";
-    }
-
-    @ReactMethod
-    public void sharedInstanceWithToken(final String token) {
-        mixpanel = MixpanelAPI.getInstance(reactContext, token);
-
     }
 
 

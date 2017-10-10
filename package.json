@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davodesign84/react-native-mixpanel.git"
+    "url": "git+https://github.com/Zycon42/react-native-mixpanel.git"
   },
   "keywords": [
     "react-native",
@@ -14,9 +14,5 @@
     "mixpanel"
   ],
   "author": "Davide Scalzo <davidescalzo@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/davodesign84/react-native-mixpanel/issues"
-  },
-  "homepage": "https://github.com/davodesign84/react-native-mixpanel#readme"
+  "license": "MIT"
 }
