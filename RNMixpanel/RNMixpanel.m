@@ -8,37 +8,30 @@
 //
 
 #import "RNMixpanel.h"
-#import "Mixpanel.h"
 
-@interface Mixpanel (ReactNative)
-- (void)applicationDidBecomeActive:(NSNotification *)notification;
-@end
+#import <Mixpanel/Mixpanel.h>
 
 @implementation RNMixpanel
 
-Mixpanel *mixpanel = nil;
-
 // Expose this module to the React Native bridge
-RCT_EXPORT_MODULE(RNMixpanel)
+RCT_EXPORT_MODULE()
 
-// sharedInstanceWithToken
-RCT_EXPORT_METHOD(sharedInstanceWithToken:(NSString *)apiToken) {
-    mixpanel = [Mixpanel sharedInstanceWithToken:apiToken];
-    // React Native runs too late to listen for applicationDidBecomeActive,
-    // so we expose the private method and call it explicitly here,
-    // to ensure that important things like initializing the flush timer and
-    // checking for pending surveys and notifications.
-    [mixpanel applicationDidBecomeActive:nil];
+- (void)initWithToken:(NSString*)apiToken launchOptions: (NSDictionary *)launchOptions
+{
+    Mixpanel* instance = [[Mixpanel alloc] initWithToken:apiToken launchOptions:launchOptions flushInterval:60 trackCrashes:NO];
+#if defined(DEBUG)
+    instance.enableLogging = YES;
+#endif
 }
 
 // get distinct id
 RCT_EXPORT_METHOD(getDistinctId:(RCTResponseSenderBlock)callback) {
-    callback(@[mixpanel.distinctId ?: @""]);
+    callback(@[[Mixpanel sharedInstance].distinctId ?: @""]);
 }
 
 // get superProp
 RCT_EXPORT_METHOD(getSuperProperty: (NSString *)prop callback:(RCTResponseSenderBlock)callback) {
-    NSDictionary *currSuperProps = [mixpanel currentSuperProperties];
+    NSDictionary *currSuperProps = [[Mixpanel sharedInstance] currentSuperProperties];
 
     if ([currSuperProps objectForKey:prop]) {
         NSString *superProp = currSuperProps[prop];
@@ -50,42 +43,42 @@ RCT_EXPORT_METHOD(getSuperProperty: (NSString *)prop callback:(RCTResponseSender
 
 // track
 RCT_EXPORT_METHOD(track:(NSString *)event) {
-    [mixpanel track:event];
+    [[Mixpanel sharedInstance] track:event];
 }
 
 // track with properties
 RCT_EXPORT_METHOD(trackWithProperties:(NSString *)event properties:(NSDictionary *)properties) {
-    [mixpanel track:event properties:properties];
+    [[Mixpanel sharedInstance] track:event properties:properties];
 }
 
 // flush
 RCT_EXPORT_METHOD(flush) {
-    [mixpanel flush];
+    [[Mixpanel sharedInstance] flush];
 }
 
 // create Alias
 RCT_EXPORT_METHOD(createAlias:(NSString *)old_id) {
-    [mixpanel createAlias:old_id forDistinctID:mixpanel.distinctId];
+    [[Mixpanel sharedInstance] createAlias:old_id forDistinctID:mixpanel.distinctId];
 }
 
 // identify
 RCT_EXPORT_METHOD(identify:(NSString *) uniqueId) {
-    [mixpanel identify:uniqueId];
+    [[Mixpanel sharedInstance] identify:uniqueId];
 }
 
 // Timing Events
 RCT_EXPORT_METHOD(timeEvent:(NSString *)event) {
-    [mixpanel timeEvent:event];
+    [[Mixpanel sharedInstance] timeEvent:event];
 }
 
 // Register super properties
 RCT_EXPORT_METHOD(registerSuperProperties:(NSDictionary *)properties) {
-    [mixpanel registerSuperProperties:properties];
+    [[Mixpanel sharedInstance] registerSuperProperties:properties];
 }
 
 // Register super properties Once
 RCT_EXPORT_METHOD(registerSuperPropertiesOnce:(NSDictionary *)properties) {
-    [mixpanel registerSuperPropertiesOnce:properties];
+    [[Mixpanel sharedInstance] registerSuperPropertiesOnce:properties];
 }
 
 // Init push notification
@@ -95,37 +88,37 @@ RCT_EXPORT_METHOD(initPushHandling:(NSString *) token) {
 
 // Set People Data
 RCT_EXPORT_METHOD(set:(NSDictionary *)properties) {
-    [mixpanel.people set:properties];
+    [[Mixpanel sharedInstance].people set:properties];
 }
 
 // Set People Data Once
 RCT_EXPORT_METHOD(setOnce:(NSDictionary *)properties) {
-    [mixpanel.people setOnce: properties];
+    [[Mixpanel sharedInstance].people setOnce: properties];
 }
 
 // Remove Person's Push Token (iOS-only)
 RCT_EXPORT_METHOD(removePushDeviceToken:(NSData *)deviceToken) {
-    [mixpanel.people removePushDeviceToken:deviceToken];
+    [[Mixpanel sharedInstance].people removePushDeviceToken:deviceToken];
 }
 
 // Remove Person's Push Token (iOS-only)
 RCT_EXPORT_METHOD(removeAllPushDeviceTokens) {
-    [mixpanel.people removeAllPushDeviceTokens];
+    [[Mixpanel sharedInstance].people removeAllPushDeviceTokens];
 }
 
 // track Revenue
 RCT_EXPORT_METHOD(trackCharge:(nonnull NSNumber *)charge) {
-    [mixpanel.people trackCharge:charge];
+    [[Mixpanel sharedInstance].people trackCharge:charge];
 }
 
 // track with properties
 RCT_EXPORT_METHOD(trackChargeWithProperties:(nonnull NSNumber *)charge properties:(NSDictionary *)properties) {
-    [mixpanel.people trackCharge:charge withProperties:properties];
+    [[Mixpanel sharedInstance].people trackCharge:charge withProperties:properties];
 }
 
 // increment
 RCT_EXPORT_METHOD(increment:(NSString *)property count:(nonnull NSNumber *)count) {
-    [mixpanel.people increment:property by:count];
+    [[Mixpanel sharedInstance].people increment:property by:count];
 }
 
 // Add Person's Push Token (iOS-only)
@@ -140,14 +133,14 @@ RCT_EXPORT_METHOD(addPushDeviceToken:(NSString *)pushDeviceToken) {
         whole_byte = strtol(byte_chars, NULL, 16);
         [deviceToken appendBytes:&whole_byte length:1];
     }
-    [mixpanel.people addPushDeviceToken:deviceToken];
+    [[Mixpanel sharedInstance].people addPushDeviceToken:deviceToken];
 }
 
 // reset
 RCT_EXPORT_METHOD(reset) {
-    [mixpanel reset];
+    [[Mixpanel sharedInstance] reset];
     NSString *uuid = [[NSUUID UUID] UUIDString];
-    [mixpanel identify:uuid];
+    [[Mixpanel sharedInstance] identify:uuid];
 }
 
 @end

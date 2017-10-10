@@ -9,5 +9,5 @@
 #import <React/RCTBridgeModule.h>
 
 @interface RNMixpanel : NSObject<RCTBridgeModule>
-
++ (void)initWithToken:(NSString*)apiToken launchOptions: (NSDictionary *)launchOptions
 @end
