@@ -58,7 +58,7 @@ RCT_EXPORT_METHOD(flush) {
 
 // create Alias
 RCT_EXPORT_METHOD(createAlias:(NSString *)old_id) {
-    [[Mixpanel sharedInstance] createAlias:old_id forDistinctID:mixpanel.distinctId];
+    [[Mixpanel sharedInstance] createAlias:old_id forDistinctID:[Mixpanel sharedInstance].distinctId];
 }
 
 // identify
