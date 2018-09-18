@@ -10,6 +10,7 @@
 #import "RNMixpanel.h"
 
 #import <Mixpanel/Mixpanel.h>
+#import <Branch/Branch.h>
 
 @implementation RNMixpanel
 
@@ -19,6 +20,7 @@ RCT_EXPORT_MODULE()
 + (void)initWithToken:(NSString*)apiToken launchOptions: (NSDictionary *)launchOptions
 {
     Mixpanel* instance = [[Mixpanel alloc] initWithToken:apiToken launchOptions:launchOptions flushInterval:60 trackCrashes:NO];
+    [[Branch getInstance] setRequestMetadataKey:@"$mixpanel_distinct_id" value:[Mixpanel sharedInstance].distinctId];
 #if defined(DEBUG)
     instance.enableLogging = YES;
 #endif

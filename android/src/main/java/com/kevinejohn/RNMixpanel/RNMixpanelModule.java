@@ -11,6 +11,8 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
+import io.branch.referral.Branch;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +32,7 @@ public class RNMixpanelModule extends ReactContextBaseJavaModule implements Life
 
         // Get lifecycle notifications to flush mixpanel on pause or destroy
         reactContext.addLifecycleEventListener(this);
+        Branch.getInstance().setRequestMetadata("$mixpanel_distinct_id", this.mixpanel.getDistinctId());
     }
 
     @Override
