@@ -10,7 +10,7 @@
 #import "RNMixpanel.h"
 
 #import <Mixpanel/Mixpanel.h>
-#import <Branch/Branch.h>
+#import <react-native-branch/RNBranch.h>
 
 @implementation RNMixpanel
 
