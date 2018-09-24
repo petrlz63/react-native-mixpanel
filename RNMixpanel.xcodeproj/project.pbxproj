@@ -222,7 +222,7 @@
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**",
 					"$(PROJECT_DIR)/../../ios/Pods/**",
-					"$(SRCRPPT)/../../node_modules/react-native-branch/ios",
+					"$(SRCROOT)/../../node_modules/react-native-branch/ios",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -238,7 +238,7 @@
 					"$(SRCROOT)/../../React/**",
 					"$(SRCROOT)/../../node_modules/react-native/React/**",
 					"$(PROJECT_DIR)/../../ios/Pods/**",
-					"$(SRCRPPT)/../../node_modules/react-native-branch/ios",
+					"$(SRCROOT)/../../node_modules/react-native-branch/ios",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
